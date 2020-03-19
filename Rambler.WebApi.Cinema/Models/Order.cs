@@ -26,6 +26,6 @@ namespace Rambler.WebApi.Cinema.Models
         /// <summary>
         /// Коллекция сеансов в данном заказе
         /// </summary>
-        public ICollection<Session> Sessions { get; set; }
+        public ICollection<OrderSession> OrderSessions { get; set; }
     }
 }
