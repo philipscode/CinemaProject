@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Rambler.WebApi.Cinema.Models;
+using Rambler.WebApi.Cinema.Profiles;
+using Rambler.WebApi.Cinema.Services;
 
 namespace Rambler.WebApi.Cinema
 {
@@ -27,11 +24,19 @@ namespace Rambler.WebApi.Cinema
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+            
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection"));
             });
+            
+            services.AddAutoMapper(c => c.AddProfile<AutoMapperProfile>(), typeof(Startup));
+
+            services.AddTransient<SessionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
