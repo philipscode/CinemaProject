@@ -24,6 +24,11 @@ namespace Rambler.WebApi.Cinema.Models
         public OrderStatus OrderStatus { get; set; }
         
         /// <summary>
+        /// Заказчик
+        /// </summary>
+        public User User { get; set; }
+        
+        /// <summary>
         /// Коллекция сеансов в данном заказе
         /// </summary>
         public ICollection<OrderSession> OrderSessions { get; set; }
