@@ -13,16 +13,11 @@ namespace Rambler.WebApi.Cinema.Dto
         /// </summary>
         [Required]
         public int UserId { get; set; }
-        
-        /// <summary>
-        /// Id статуса заказа
-        /// </summary>
-        public int OrderStatusId { get; set; }
-        
+
         /// <summary>
         /// Коллекция id сеансов
         /// </summary>
         [Required]
-        public ICollection<int> OrderSessionsIds { get; set; }
+        public ICollection<int> SessionIds { get; set; }
     }
 }

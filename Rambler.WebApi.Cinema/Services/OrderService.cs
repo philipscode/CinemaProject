@@ -11,6 +11,10 @@ namespace Rambler.WebApi.Cinema.Services
     /// </summary>
     public class OrderService
     {
+        public const string ORDER_CREATED = "Создан";
+        public const string ORDER_PAYED = "Оплачен";
+        public const string ORDER_DELETED = "Удален";
+        
         private readonly CinemaContext _context;
 
         /// <summary>
@@ -40,7 +44,7 @@ namespace Rambler.WebApi.Cinema.Services
                     return false;
                 }
 
-                foreach (var sessionId in orderDto.OrderSessionsIds)
+                foreach (var sessionId in orderDto.SessionIds)
                 {
                     Session session = await _context
                         .Sessions
@@ -54,7 +58,7 @@ namespace Rambler.WebApi.Cinema.Services
 
                     OrderStatus orderStatus = await _context
                         .OrderStatuses
-                        .FirstOrDefaultAsync(o => o.Id == orderDto.OrderStatusId);
+                        .FirstOrDefaultAsync(o => o.Status == ORDER_CREATED);
 
                     if (orderStatus == null)
                     {
