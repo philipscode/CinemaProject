@@ -8,14 +8,6 @@ namespace Rambler.WebApi.Cinema
     {
         public static void Main(string[] args)
         {
-            // var configuration = new ConfigurationBuilder()
-            //     .AddJsonFile("appsettings.json")
-            //     .Build();
-            //
-            // Log.Logger = new LoggerConfiguration()
-            //     .ReadFrom.Configuration(configuration)
-            //     .CreateLogger();
-            
             CreateHostBuilder(args).Build().Run();
         }
 
