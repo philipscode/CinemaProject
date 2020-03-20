@@ -13,7 +13,7 @@ namespace Rambler.WebApi.Cinema.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -23,7 +23,7 @@ namespace Rambler.WebApi.Cinema.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -32,10 +32,10 @@ namespace Rambler.WebApi.Cinema.Migrations
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Orders_User_UserId",
+                name: "FK_Orders_Users_UserId",
                 table: "Orders",
                 column: "UserId",
-                principalTable: "User",
+                principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -43,11 +43,11 @@ namespace Rambler.WebApi.Cinema.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Orders_User_UserId",
+                name: "FK_Orders_Users_UserId",
                 table: "Orders");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropIndex(
                 name: "IX_Orders_UserId",
