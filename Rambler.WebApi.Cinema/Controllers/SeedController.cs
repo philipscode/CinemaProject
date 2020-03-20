@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rambler.WebApi.Cinema.Models;
+using Serilog;
 
 namespace Rambler.WebApi.Cinema.Controllers
 {
@@ -14,14 +15,17 @@ namespace Rambler.WebApi.Cinema.Controllers
     public class SeedController : ControllerBase
     {
         private readonly CinemaContext _context;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Конструктор класса
         /// </summary>
         /// <param name="context">Объект для взаимодействия с БД</param>
-        public SeedController(CinemaContext context)
+        /// <param name="logger">Объект для логирования</param>
+        public SeedController(CinemaContext context, ILogger logger)
         {
             _context = context;
+            _logger = logger;
         }
         
         /// <summary>
@@ -176,8 +180,7 @@ namespace Rambler.WebApi.Cinema.Controllers
             }
             catch (Exception e)
             {
-                // log exception
-                Console.Write(e.Message);
+                _logger.Error($"Ошибка во время заполнения БД. {e.Message}");
                 return StatusCode(500);
             }
         }

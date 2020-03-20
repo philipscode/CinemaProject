@@ -1,3 +1,3 @@
 # Web-Api для кинотеатра
 
-Ссылка на er-диаграмму: https://app.diagrams.net/#G1A4lSv9ZsRtGQgX-dft4kfcoHZ3ZM1J0F
+ER-диаграмма: https://drive.google.com/open?id=10Etx68r2WGsJxetsUBKCCTvKIfNORvsn

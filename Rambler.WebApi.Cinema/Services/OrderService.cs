@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Rambler.WebApi.Cinema.Dto;
 using Rambler.WebApi.Cinema.Models;
+using Serilog;
 
 namespace Rambler.WebApi.Cinema.Services
 {
@@ -16,14 +17,17 @@ namespace Rambler.WebApi.Cinema.Services
         public const string OrderDeleted = "Удален";
         
         private readonly CinemaContext _context;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Конструктор класса
         /// </summary>
         /// <param name="context">Объект для взаимодействия с БД</param>
-        public OrderService(CinemaContext context)
+        /// <param name="logger"></param>
+        public OrderService(CinemaContext context, ILogger logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
@@ -41,6 +45,7 @@ namespace Rambler.WebApi.Cinema.Services
 
                 if (user == null)
                 {
+                    _logger.Information($"Неизвестный пользователь с id = {orderDto.UserId}");
                     return false;
                 }
                 
@@ -50,6 +55,7 @@ namespace Rambler.WebApi.Cinema.Services
 
                 if (orderStatus == null)
                 {
+                    _logger.Information("Неизвестный статус заказа");
                     return false;
                 }
                 
@@ -69,6 +75,7 @@ namespace Rambler.WebApi.Cinema.Services
 
                     if (session == null || session.FreeSeats <= 0)
                     {
+                        _logger.Information("Сеанс не найден или закончились места");
                         continue;
                     }
 
@@ -88,7 +95,7 @@ namespace Rambler.WebApi.Cinema.Services
             }
             catch (Exception e)
             {
-                Console.Write($"{e.Message} {e.StackTrace}");
+                _logger.Information($"Ошибка во время создания заказа. {e.Message}");
                 return false;
             }
         }
@@ -109,6 +116,7 @@ namespace Rambler.WebApi.Cinema.Services
 
                 if (order == null)
                 {
+                    _logger.Information("Неизвестный заказ");
                     return false;
                 }
 
@@ -118,6 +126,7 @@ namespace Rambler.WebApi.Cinema.Services
 
                 if (status == null)
                 {
+                    _logger.Information("Неизвестный статус заказа");
                     return false;
                 }
 
@@ -129,7 +138,7 @@ namespace Rambler.WebApi.Cinema.Services
             }
             catch (Exception e)
             {
-                // log exception
+                _logger.Information($"Ошибка во время обновления статуса заказа. {e.Message}");
                 return false;
             }
         }
