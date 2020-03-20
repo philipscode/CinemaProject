@@ -43,6 +43,7 @@ namespace Rambler.WebApi.Cinema.Controllers
             }
             
             var resultDto = _mapper.Map<IEnumerable<SessionDto>>(result);
+            
             return Ok(resultDto);
         }
     }
