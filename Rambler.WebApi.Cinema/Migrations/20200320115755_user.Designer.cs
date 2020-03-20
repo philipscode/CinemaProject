@@ -10,7 +10,7 @@ using Rambler.WebApi.Cinema.Models;
 namespace Rambler.WebApi.Cinema.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20200320113900_user")]
+    [Migration("20200320115755_user")]
     partial class user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,7 +172,7 @@ namespace Rambler.WebApi.Cinema.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.Hall", b =>

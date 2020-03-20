@@ -170,7 +170,7 @@ namespace Rambler.WebApi.Cinema.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.Hall", b =>

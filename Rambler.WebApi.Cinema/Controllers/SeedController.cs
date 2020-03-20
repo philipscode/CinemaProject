@@ -69,6 +69,33 @@ namespace Rambler.WebApi.Cinema.Controllers
                         }
                     }
                 });
+
+                _context.OrderStatuses.Add(new OrderStatus
+                {
+                    Status = "Создан"
+                });
+                
+                _context.OrderStatuses.Add(new OrderStatus
+                {
+                    Status = "Оплачен"
+                });
+                
+                _context.OrderStatuses.Add(new OrderStatus
+                {
+                    Status = "Удален"
+                });
+
+                _context.Users.Add(new User
+                {
+                    Name = "Федерико Феллини",
+                    Email = "felline@rambler.ru"
+                });
+                
+                _context.Users.Add(new User
+                {
+                    Name = "Микеланджело Антониони",
+                    Email = "antonioni@rambler.ru"
+                });
                 
                 await _context.SaveChangesAsync();
 
@@ -77,6 +104,7 @@ namespace Rambler.WebApi.Cinema.Controllers
             catch (Exception e)
             {
                 // log exception
+                Console.Write(e.Message);
                 return StatusCode(500);
             }
         }

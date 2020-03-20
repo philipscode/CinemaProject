@@ -13,6 +13,7 @@ namespace Rambler.WebApi.Cinema.Models
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<SessionType> SessionTypes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
