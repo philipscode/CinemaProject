@@ -10,7 +10,7 @@ using Rambler.WebApi.Cinema.Models;
 namespace Rambler.WebApi.Cinema.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20200319164831_initial")]
+    [Migration("20200320171502_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,22 +72,34 @@ namespace Rambler.WebApi.Cinema.Migrations
                     b.Property<int?>("OrderStatusId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.OrderSession", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SessionId")
+                    b.Property<int?>("SessionId")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderId", "SessionId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("SessionId");
 
@@ -122,6 +134,9 @@ namespace Rambler.WebApi.Cinema.Migrations
                     b.Property<int?>("FilmId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("FreeSeats")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("HallId")
                         .HasColumnType("integer");
 
@@ -152,6 +167,24 @@ namespace Rambler.WebApi.Cinema.Migrations
                     b.ToTable("SessionTypes");
                 });
 
+            modelBuilder.Entity("Rambler.WebApi.Cinema.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.Hall", b =>
                 {
                     b.HasOne("Rambler.WebApi.Cinema.Models.SessionType", "SessionType")
@@ -164,21 +197,21 @@ namespace Rambler.WebApi.Cinema.Migrations
                     b.HasOne("Rambler.WebApi.Cinema.Models.OrderStatus", "OrderStatus")
                         .WithMany("Orders")
                         .HasForeignKey("OrderStatusId");
+
+                    b.HasOne("Rambler.WebApi.Cinema.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.OrderSession", b =>
                 {
                     b.HasOne("Rambler.WebApi.Cinema.Models.Order", "Order")
                         .WithMany("OrderSessions")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("Rambler.WebApi.Cinema.Models.Session", "Session")
                         .WithMany("OrderSessions")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SessionId");
                 });
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.Session", b =>

@@ -11,9 +11,9 @@ namespace Rambler.WebApi.Cinema.Services
     /// </summary>
     public class OrderService
     {
-        public const string ORDER_CREATED = "Создан";
-        public const string ORDER_PAYED = "Оплачен";
-        public const string ORDER_DELETED = "Удален";
+        private const string OrderCreated = "Создан";
+        private const string OrderPayed = "Оплачен";
+        private const string OrderDeleted = "Удален";
         
         private readonly CinemaContext _context;
 
@@ -43,6 +43,22 @@ namespace Rambler.WebApi.Cinema.Services
                 {
                     return false;
                 }
+                
+                OrderStatus orderStatus = await _context
+                    .OrderStatuses
+                    .FirstOrDefaultAsync(o => o.Status == OrderCreated);
+
+                if (orderStatus == null)
+                {
+                    return false;
+                }
+                
+                Order order = new Order
+                {
+                    ModifyDate = DateTime.Now,
+                    OrderStatus = orderStatus,
+                    User = user
+                };
 
                 foreach (var sessionId in orderDto.SessionIds)
                 {
@@ -56,22 +72,6 @@ namespace Rambler.WebApi.Cinema.Services
                         continue;
                     }
 
-                    OrderStatus orderStatus = await _context
-                        .OrderStatuses
-                        .FirstOrDefaultAsync(o => o.Status == ORDER_CREATED);
-
-                    if (orderStatus == null)
-                    {
-                        continue;
-                    }
-
-                    Order order = new Order
-                    {
-                        ModifyDate = DateTime.Now,
-                        OrderStatus = orderStatus,
-                        User = user
-                    };
-                    
                     session.OrderSessions.Add(new OrderSession
                     {
                         Order = order,
@@ -85,6 +85,46 @@ namespace Rambler.WebApi.Cinema.Services
 
                 return true;
 
+            }
+            catch (Exception e)
+            {
+                Console.Write($"{e.Message} {e.StackTrace}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Оплата существуюещго заказа
+        /// </summary>
+        /// <param name="id">Id заказа</param>
+        /// <returns>Статус выполнения операции</returns>
+        public async Task<bool> PayForTheOrder(int id)
+        {
+            try
+            {
+                Order order = await _context
+                    .Orders
+                    .FirstOrDefaultAsync(o => o.Id == id);
+
+                if (order == null)
+                {
+                    return false;
+                }
+
+                OrderStatus statusPayed = await _context
+                    .OrderStatuses
+                    .FirstOrDefaultAsync(o => o.Status == OrderPayed);
+
+                if (statusPayed == null)
+                {
+                    return false;
+                }
+
+                order.OrderStatus = statusPayed;
+
+                await _context.SaveChangesAsync();
+
+                return true;
             }
             catch (Exception e)
             {

@@ -5,10 +5,13 @@ namespace Rambler.WebApi.Cinema.Models
     /// </summary>
     public class OrderSession
     {
-        public int OrderId { get; set; }
+        /// <summary>
+        /// Id связки заказа с сеансом
+        /// </summary>
+        public int Id { get; set; }
+        
         public Order Order { get; set; }
         
-        public int SessionId { get; set; }
         public Session Session { get; set; }
     }
 }

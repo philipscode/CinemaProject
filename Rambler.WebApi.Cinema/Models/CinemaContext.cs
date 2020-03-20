@@ -18,10 +18,5 @@ namespace Rambler.WebApi.Cinema.Models
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<OrderSession>().HasKey(os => new {os.OrderId, os.SessionId});
-        }
     }
 }

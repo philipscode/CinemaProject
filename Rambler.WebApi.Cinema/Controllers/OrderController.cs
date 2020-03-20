@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.SymbolStore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rambler.WebApi.Cinema.Dto;
@@ -36,6 +38,24 @@ namespace Rambler.WebApi.Cinema.Controllers
             if (isSuccessful)
             {
                 return StatusCode(201);
+            }
+
+            return StatusCode(500);
+        }
+
+        /// <summary>
+        /// Оплата существующего заказа
+        /// </summary>
+        /// <param name="orderId">Id заказа</param>
+        /// <returns>HTTP-код статуса выполнения операции</returns>
+        [HttpGet("pay/{orderId}")]
+        public async Task<IActionResult> PayForTheOrder(int orderId)
+        {
+            bool isSuccessfull = await _service.PayForTheOrder(orderId);
+
+            if (isSuccessfull)
+            {
+                return StatusCode(200);
             }
 
             return StatusCode(500);

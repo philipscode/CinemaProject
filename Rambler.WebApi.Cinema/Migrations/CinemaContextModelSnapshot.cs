@@ -84,13 +84,20 @@ namespace Rambler.WebApi.Cinema.Migrations
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.OrderSession", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SessionId")
+                    b.Property<int?>("SessionId")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderId", "SessionId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("SessionId");
 
@@ -198,15 +205,11 @@ namespace Rambler.WebApi.Cinema.Migrations
                 {
                     b.HasOne("Rambler.WebApi.Cinema.Models.Order", "Order")
                         .WithMany("OrderSessions")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("Rambler.WebApi.Cinema.Models.Session", "Session")
                         .WithMany("OrderSessions")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SessionId");
                 });
 
             modelBuilder.Entity("Rambler.WebApi.Cinema.Models.Session", b =>
