@@ -11,9 +11,9 @@ namespace Rambler.WebApi.Cinema.Services
     /// </summary>
     public class OrderService
     {
-        private const string OrderCreated = "Создан";
-        private const string OrderPayed = "Оплачен";
-        private const string OrderDeleted = "Удален";
+        public const string OrderCreated = "Создан";
+        public const string OrderPayed = "Оплачен";
+        public const string OrderDeleted = "Удален";
         
         private readonly CinemaContext _context;
 
@@ -94,33 +94,34 @@ namespace Rambler.WebApi.Cinema.Services
         }
 
         /// <summary>
-        /// Оплата существуюещго заказа
+        /// Обновление статуса заказа
         /// </summary>
-        /// <param name="id">Id заказа</param>
+        /// <param name="orderId">Id заказа</param>
+        /// <param name="newStatus">Статус заказа</param>
         /// <returns>Статус выполнения операции</returns>
-        public async Task<bool> PayForTheOrder(int id)
+        public async Task<bool> UpdateOrderStatus(int orderId, string newStatus)
         {
             try
             {
                 Order order = await _context
                     .Orders
-                    .FirstOrDefaultAsync(o => o.Id == id);
+                    .FirstOrDefaultAsync(o => o.Id == orderId);
 
                 if (order == null)
                 {
                     return false;
                 }
 
-                OrderStatus statusPayed = await _context
+                OrderStatus status = await _context
                     .OrderStatuses
-                    .FirstOrDefaultAsync(o => o.Status == OrderPayed);
+                    .FirstOrDefaultAsync(o => o.Status == newStatus);
 
-                if (statusPayed == null)
+                if (status == null)
                 {
                     return false;
                 }
 
-                order.OrderStatus = statusPayed;
+                order.OrderStatus = status;
 
                 await _context.SaveChangesAsync();
 

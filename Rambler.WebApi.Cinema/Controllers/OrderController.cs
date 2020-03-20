@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics.SymbolStore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rambler.WebApi.Cinema.Dto;
@@ -33,14 +31,9 @@ namespace Rambler.WebApi.Cinema.Controllers
         [HttpPost("place")]
         public async Task<IActionResult> PlaceOrder([FromBody] OrderDto orderDto)
         {
-            bool isSuccessful = await _service.ProcessPlacedOrder(orderDto);
+            var isSuccessful = await _service.ProcessPlacedOrder(orderDto);
 
-            if (isSuccessful)
-            {
-                return StatusCode(201);
-            }
-
-            return StatusCode(500);
+            return StatusCode(isSuccessful ? 201 : 500);
         }
 
         /// <summary>
@@ -51,14 +44,22 @@ namespace Rambler.WebApi.Cinema.Controllers
         [HttpGet("pay/{orderId}")]
         public async Task<IActionResult> PayForTheOrder(int orderId)
         {
-            bool isSuccessfull = await _service.PayForTheOrder(orderId);
+            var isSuccessful = await _service.UpdateOrderStatus(orderId, OrderService.OrderPayed);
 
-            if (isSuccessfull)
-            {
-                return StatusCode(200);
-            }
+            return StatusCode(isSuccessful ? 200 : 500);
+        }
 
-            return StatusCode(500);
+        /// <summary>
+        /// Отмена существующего заказа
+        /// </summary>
+        /// <param name="orderId">Id заказа</param>
+        /// <returns>HTTP-код статуса выполнения операции</returns>
+        [HttpGet("cancel/{orderId}")]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            var isSuccessful = await _service.UpdateOrderStatus(orderId, OrderService.OrderDeleted);
+
+            return StatusCode(isSuccessful ? 200 : 500);
         }
     }
 }
