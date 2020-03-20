@@ -23,6 +23,11 @@ namespace Rambler.WebApi.Cinema.Dto
         public int Price { get; set; }
         
         /// <summary>
+        /// Количество свободных мест
+        /// </summary>
+        public int FreeSeats { get; set; }
+        
+        /// <summary>
         /// Кинозал, в котором проходит сеанс
         /// </summary>
         public HallDto Hall { get; set; }

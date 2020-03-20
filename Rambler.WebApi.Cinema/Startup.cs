@@ -38,6 +38,7 @@ namespace Rambler.WebApi.Cinema
             services.AddAutoMapper(c => c.AddProfile<AutoMapperProfile>(), typeof(Startup));
 
             services.AddTransient<SessionService>();
+            services.AddTransient<OrderService>();
 
             services.AddSwaggerGen(c =>
             {

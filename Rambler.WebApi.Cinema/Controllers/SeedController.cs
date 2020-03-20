@@ -35,7 +35,8 @@ namespace Rambler.WebApi.Cinema.Controllers
                 _context.Sessions.Add(new Session
                 {
                     DateStart = DateTime.Now, 
-                    Price = 500, 
+                    Price = 500,
+                    FreeSeats = 200,
                     Film = new Film
                     {
                         Name = "Восемь с половиной", 
@@ -55,6 +56,7 @@ namespace Rambler.WebApi.Cinema.Controllers
                 {
                     DateStart = DateTime.Now.AddDays(1), 
                     Price = 300,
+                    FreeSeats = 100,
                     Film = new Film
                     {
                         Name = "Фотоувеличение",
@@ -67,7 +69,7 @@ namespace Rambler.WebApi.Cinema.Controllers
                         {
                             Type = "IMAX"
                         }
-                    }
+                    },
                 });
 
                 _context.OrderStatuses.Add(new OrderStatus
