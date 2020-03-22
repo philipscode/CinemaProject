@@ -1,6 +1,18 @@
 # Web-Api для кинотеатра
 
-ER-диаграмма: https://drive.google.com/open?id=10Etx68r2WGsJxetsUBKCCTvKIfNORvsn
+**ER-диаграмма:** https://drive.google.com/open?id=10Etx68r2WGsJxetsUBKCCTvKIfNORvsn
+
+**Стек технологий:**
+
+- .NET Core 3.0
+- PostgreSQL
+
+**Подключенные библиотеки:**
+
+- AutoMapper
+- EntityFrameworkCore
+- Serilog
+- Swagger
 
 # Теоретическая часть
 
